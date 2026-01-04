@@ -64,7 +64,7 @@ export default function TasksPage() {
 
   const updateTaskStatus = async (id: string, status: string) => {
     try {
-      await taskApi.update(id, { status });
+      await taskApi.update(id, { status: status as TaskStatus });
       loadTasks();
       loadStats();
     } catch (err: any) {
