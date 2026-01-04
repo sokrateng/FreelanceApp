@@ -15,8 +15,6 @@ export default function AcceptInvitationPage() {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const { setAuth } = useAuthStore();
-
   useEffect(() => {
     if (!token) {
       setError('Invalid invitation link');
