@@ -29,7 +29,7 @@ interface Config {
     host: string;
     port: number;
     user: string;
-    password: string;
+    password: string | undefined;
     from: string;
   };
   frontendUrl: string;

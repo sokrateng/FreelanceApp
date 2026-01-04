@@ -32,7 +32,7 @@ class EmailService {
   }
 
   async sendInviteEmail(data: InviteEmailData): Promise<void> {
-    const inviteUrl = `${config.FRONTEND_URL || 'http://localhost:3000'}/accept-invitation?token=${data.inviteToken}`;
+    const inviteUrl = `${config.frontendUrl}/accept-invitation?token=${data.inviteToken}`;
 
     const mailOptions = {
       from: config.email?.from || 'noreply@freelance-pm.com',

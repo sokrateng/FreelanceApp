@@ -57,15 +57,6 @@ export class ProjectService {
       throw new AppError('Budget cannot be negative', 400);
     }
 
-    // Validate dates if provided
-    if (data.start_date && data.end_date) {
-      const startDate = new Date(data.start_date);
-      const endDate = new Date(data.end_date);
-      if (startDate > endDate) {
-        throw new AppError('Start date cannot be after end date', 400);
-      }
-    }
-
     return await ProjectModel.create(data);
   }
 
@@ -91,15 +82,6 @@ export class ProjectService {
     // Validate budget if provided
     if (data.budget !== undefined && data.budget < 0) {
       throw new AppError('Budget cannot be negative', 400);
-    }
-
-    // Validate dates if both provided
-    const startDate = data.start_date || existingProject.start_date;
-    const endDate = data.end_date || existingProject.end_date;
-    if (startDate && endDate) {
-      if (new Date(startDate) > new Date(endDate)) {
-        throw new AppError('Start date cannot be after end date', 400);
-      }
     }
 
     const updatedProject = await ProjectModel.update(id, user_id, data);
