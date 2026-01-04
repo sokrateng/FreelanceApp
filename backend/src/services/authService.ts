@@ -60,6 +60,7 @@ export class AuthService {
     const { email, password } = data;
 
     console.log('🔐 Login attempt for email:', email);
+    console.log('📝 Password received:', password, '(length:', password.length, ')');
 
     // Find user by email
     const user = await UserModel.findByEmail(email);
@@ -69,6 +70,7 @@ export class AuthService {
     }
 
     console.log('✅ User found:', { id: user.id, email: user.email, is_active: user.is_active });
+    console.log('💾 Stored hash (first 30 chars):', user.password_hash.substring(0, 30));
 
     // Check if account is active
     if (!user.is_active) {
