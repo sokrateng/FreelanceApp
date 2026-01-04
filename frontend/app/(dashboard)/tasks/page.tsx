@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { Calendar, Clock, Folder, Trash2, Pencil } from 'lucide-react';
 import { projectApi } from '@/lib/api/projectApi';
 import { taskApi } from '@/lib/api/taskApi';
-import { Task, TaskStats, Project } from '@/lib/types';
+import { Task, TaskStats, Project, TaskStatus } from '@/lib/types';
 
 export default function TasksPage() {
   const router = useRouter();
