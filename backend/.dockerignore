@@ -7,10 +7,3 @@ dist
 .git
 .DS_Store
 *.md
-scripts
-check-*.js
-migrate*.js
-reset-*.js
-test-*.js
-update-*.js
-verify-*.js
