@@ -16,6 +16,9 @@ COPY . .
 # Build TypeScript
 RUN npm run build
 
+# Copy scripts (needed for migrations)
+COPY scripts ./scripts
+
 # Install production dependencies only
 RUN npm ci --only=production
 
