@@ -212,11 +212,11 @@ export class AuthService {
    */
   static async getUserClientIds(userId: string): Promise<string[]> {
     const pool = require('../config/database').default;
-    const result = await pool.query<{ client_id: string }>(
+    const result = await pool.query(
       'SELECT client_id FROM user_clients WHERE user_id = $1',
       [userId]
     );
-    return result.rows.map((row) => row.client_id);
+    return result.rows.map((row: any) => row.client_id);
   }
 
   /**

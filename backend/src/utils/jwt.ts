@@ -8,7 +8,7 @@ import { UserPayload } from '../types';
 export const generateAccessToken = (payload: UserPayload): string => {
   return jwt.sign(payload, config.jwt.secret, {
     expiresIn: config.jwt.expiresIn,
-  });
+  } as jwt.SignOptions);
 };
 
 /**
@@ -17,7 +17,7 @@ export const generateAccessToken = (payload: UserPayload): string => {
 export const generateRefreshToken = (payload: UserPayload): string => {
   return jwt.sign(payload, config.jwt.refreshSecret, {
     expiresIn: config.jwt.refreshExpiresIn,
-  });
+  } as jwt.SignOptions);
 };
 
 /**
