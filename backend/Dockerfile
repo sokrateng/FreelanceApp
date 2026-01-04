@@ -13,11 +13,11 @@ RUN npm ci
 # Copy source code
 COPY . .
 
+# Copy scripts (needed for migrations) - copy before build
+COPY scripts ./scripts
+
 # Build TypeScript
 RUN npm run build
-
-# Copy scripts (needed for migrations)
-COPY scripts ./scripts
 
 # Install production dependencies only
 RUN npm ci --only=production
@@ -25,5 +25,5 @@ RUN npm ci --only=production
 # Expose port
 EXPOSE 3001
 
-# Start the server
+# Start the server (migrations disabled - already in DB)
 CMD ["npm", "start"]
