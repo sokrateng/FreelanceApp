@@ -34,8 +34,7 @@ export default function TasksPage() {
 
   const loadStats = async () => {
     try {
-      const params = selectedProject ? { project_id: selectedProject } : undefined;
-      const data = await taskApi.getStats(params);
+      const data = await taskApi.getStats(selectedProject);
       setStats(data);
     } catch (err) {
       console.error('Failed to load stats', err);
