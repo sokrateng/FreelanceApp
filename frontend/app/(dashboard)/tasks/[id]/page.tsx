@@ -93,7 +93,7 @@ export default function EditTaskPage() {
     try {
       await timeEntryApi.create({
         task_id: taskId,
-        project_id: task?.project_id || null,
+        project_id: task?.project_id || undefined,
         hours: parseFloat(newTimeEntry.hours),
         description: newTimeEntry.description,
         billable: newTimeEntry.billable,
