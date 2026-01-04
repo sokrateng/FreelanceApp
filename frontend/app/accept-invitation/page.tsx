@@ -1,11 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { authApi } from '@/lib/api/auth';
-import { useAuthStore } from '@/lib/store/authStore';
 
-export default function AcceptInvitationPage() {
+function AcceptInvitationForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
@@ -132,5 +131,13 @@ export default function AcceptInvitationPage() {
         </form>
       </div>
     </div>
+  );
+}
+
+export default function AcceptInvitationPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <AcceptInvitationForm />
+    </Suspense>
   );
 }

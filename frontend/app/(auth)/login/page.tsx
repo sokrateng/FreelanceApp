@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
@@ -14,7 +14,7 @@ interface LoginForm {
   password: string;
 }
 
-export default function LoginPage() {
+function LoginForm() {
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -110,5 +110,13 @@ export default function LoginPage() {
         </form>
       </CardContent>
     </Card>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <LoginForm />
+    </Suspense>
   );
 }
