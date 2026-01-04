@@ -39,12 +39,44 @@ FreelanceApp/
 
 ## Getting Started
 
-### Prerequisites
+### Quick Start with Docker (Recommended)
+
+The easiest way to run the entire application is using Docker:
+
+1. **Install Docker Desktop** (if not already installed)
+   - Download from https://www.docker.com/products/docker-desktop
+
+2. **Clone the repository**
+   ```bash
+   git clone https://github.com/sokrateng/FreelanceApp.git
+   cd FreelanceApp
+   ```
+
+3. **Configure environment variables**
+   ```bash
+   cp .env.example .env
+   # Edit .env with your configuration
+   ```
+
+4. **Start all services**
+   ```bash
+   docker-compose up --build
+   ```
+
+5. **Access the application**
+   - Frontend: http://localhost:3000
+   - Backend API: http://localhost:3001
+
+For detailed Docker instructions, see [DOCKER.md](DOCKER.md)
+
+### Manual Setup
+
+#### Prerequisites
 - Node.js 18+
 - PostgreSQL 14+
 - npm or yarn
 
-### Backend Setup
+#### Backend Setup
 
 1. Navigate to backend directory:
 ```bash
