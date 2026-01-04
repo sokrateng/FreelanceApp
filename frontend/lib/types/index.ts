@@ -115,7 +115,8 @@ export interface CreateProjectData {
 }
 
 export interface UpdateProjectData {
-  client_ids?: string[];  // Array of client IDs
+  client_id?: string;  // Single client ID (primary client)
+  client_ids?: string[];  // Array of client IDs (for multi-client projects)
   name?: string;
   description?: string;
   status?: ProjectStatus;
