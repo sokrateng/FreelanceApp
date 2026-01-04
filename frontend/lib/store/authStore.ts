@@ -78,15 +78,20 @@ export const useAuthStore = create<AuthState>()(
       name: 'auth-storage',
       onRehydrateStorage: () => (state) => {
         // Mark as hydrated
-        state?.setHasHydrated(true);
-        // Sync to localStorage after hydration
-        if (state && typeof window !== 'undefined') {
-          if (state.token) {
-            localStorage.setItem('token', state.token);
+        try {
+          state?.setHasHydrated(true);
+          // Sync to localStorage after hydration
+          if (state && typeof window !== 'undefined') {
+            if (state.token) {
+              localStorage.setItem('token', state.token);
+            }
+            if (state.refreshToken) {
+              localStorage.setItem('refreshToken', state.refreshToken);
+            }
           }
-          if (state.refreshToken) {
-            localStorage.setItem('refreshToken', state.refreshToken);
-          }
+        } catch (error) {
+          // Ignore errors during rehydration
+          console.warn('Auth store rehydration error:', error);
         }
       },
     }
