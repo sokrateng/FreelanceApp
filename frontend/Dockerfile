@@ -1,4 +1,4 @@
-# Frontend Dockerfile for Next.js
+# Frontend Dockerfile for Next.js 15 with standalone output
 FROM node:18-alpine AS base
 
 # Install dependencies only when needed
@@ -30,13 +30,12 @@ ENV NEXT_TELEMETRY_DISABLED 1
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-COPY --from=builder /app/public ./public
-
 # Set the correct permission for prerender cache
 RUN mkdir .next
 RUN chown nextjs:nodejs .next
 
 # Automatically leverage output traces to reduce image size
+# https://nextjs.org/docs/app/building-your-application/deploying#using-standalone-docker-image
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
