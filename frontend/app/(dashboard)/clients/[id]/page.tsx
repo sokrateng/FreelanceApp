@@ -29,7 +29,16 @@ export default function EditClientPage() {
       setIsLoadingClient(true);
       const data = await clientApi.getById(id);
       setClient(data);
-      reset(data);
+      // Convert null values to undefined for form reset
+      reset({
+        name: data.name,
+        email: data.email || undefined,
+        phone: data.phone || undefined,
+        company: data.company || undefined,
+        address: data.address || undefined,
+        status: data.status,
+        notes: data.notes || undefined,
+      });
     } catch (err: any) {
       setError(err.response?.data?.error || 'Failed to load client');
     } finally {
