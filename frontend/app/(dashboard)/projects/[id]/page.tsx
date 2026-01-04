@@ -32,12 +32,16 @@ export default function EditProjectPage() {
       const data = await projectApi.getById(id);
       setProject(data);
 
-      // Format deadline for date input (YYYY-MM-DD), avoiding timezone issues
-      const formattedData = {
-        ...data,
-        deadline: data.deadline ? data.deadline.substring(0, 10) : '',
-      };
-      reset(formattedData);
+      // Format data for form reset, converting null to undefined
+      reset({
+        name: data.name,
+        client_id: data.client_id || undefined,
+        description: data.description || undefined,
+        status: data.status,
+        budget: data.budget || undefined,
+        deadline: data.deadline ? data.deadline.substring(0, 10) : undefined,
+        notes: data.notes || undefined,
+      });
     } catch (err: any) {
       setError(err.response?.data?.error || 'Failed to load project');
     } finally {
