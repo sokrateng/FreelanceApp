@@ -40,9 +40,10 @@ export class ClientController {
   static async getClientById(req: AuthRequest, res: Response) {
     try {
       const user_id = req.user!.id;
+      const user_role = req.user!.role as 'admin' | 'user';
       const { id } = req.params;
 
-      const client = await ClientService.getClientById(id, user_id);
+      const client = await ClientService.getClientById(id, user_id, user_role);
 
       res.status(200).json({
         success: true,

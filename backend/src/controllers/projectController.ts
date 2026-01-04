@@ -54,9 +54,10 @@ export class ProjectController {
   static async getProjectById(req: AuthRequest, res: Response) {
     try {
       const user_id = req.user!.id;
+      const user_role = req.user!.role as 'admin' | 'user';
       const { id } = req.params;
 
-      const project = await ProjectService.getProjectById(id, user_id);
+      const project = await ProjectService.getProjectById(id, user_id, user_role);
 
       res.status(200).json({
         success: true,

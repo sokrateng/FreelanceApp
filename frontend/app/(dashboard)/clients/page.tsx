@@ -169,14 +169,24 @@ export default function ClientsPage() {
                       href={`/clients/${client.id}`}
                       className="text-blue-600 hover:text-blue-800"
                     >
-                      Edit
+                      View
                     </Link>
-                    <button
-                      onClick={() => deleteClient(client.id)}
-                      className="text-red-600 hover:text-red-800"
-                    >
-                      Delete
-                    </button>
+                    {user?.role === 'admin' && (
+                      <>
+                        <Link
+                          href={`/clients/${client.id}`}
+                          className="text-blue-600 hover:text-blue-800 ml-2"
+                        >
+                          Edit
+                        </Link>
+                        <button
+                          onClick={() => deleteClient(client.id)}
+                          className="text-red-600 hover:text-red-800 ml-2"
+                        >
+                          Delete
+                        </button>
+                      </>
+                    )}
                   </td>
                 </tr>
               ))}

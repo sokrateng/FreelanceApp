@@ -34,6 +34,16 @@ export class TaskService {
       throw new AppError('Task title is required', 400);
     }
 
+    // Project is required
+    if (!data.project_id || data.project_id.trim().length === 0) {
+      throw new AppError('Project is required', 400);
+    }
+
+    // Due date is required
+    if (!data.due_date || data.due_date.trim().length === 0) {
+      throw new AppError('Due date is required', 400);
+    }
+
     // Validate estimated hours if provided
     if (data.estimated_hours !== undefined && data.estimated_hours < 0) {
       throw new AppError('Estimated hours cannot be negative', 400);

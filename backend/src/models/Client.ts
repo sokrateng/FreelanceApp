@@ -47,11 +47,24 @@ export class ClientModel {
   /**
    * Find client by ID
    */
-  static async findById(id: string, user_id: string): Promise<Client | null> {
-    const result = await pool.query<Client>(
-      'SELECT * FROM clients WHERE id = $1 AND user_id = $2',
-      [id, user_id]
-    );
+  static async findById(id: string, user_id: string, user_role?: 'admin' | 'user'): Promise<Client | null> {
+    let result;
+    
+    if (user_role === 'admin') {
+      // Admin users can see all clients
+      result = await pool.query<Client>(
+        'SELECT * FROM clients WHERE id = $1',
+        [id]
+      );
+    } else {
+      // Non-admin users can see clients they created OR are assigned to via user_clients
+      result = await pool.query<Client>(
+        `SELECT * FROM clients 
+         WHERE id = $1 AND (user_id = $2 OR id IN (SELECT client_id FROM user_clients WHERE user_id = $2))`,
+        [id, user_id]
+      );
+    }
+    
     return result.rows[0] || null;
   }
 

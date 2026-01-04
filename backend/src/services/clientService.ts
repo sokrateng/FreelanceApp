@@ -30,8 +30,8 @@ export class ClientService {
   /**
    * Get a single client by ID
    */
-  static async getClientById(id: string, user_id: string) {
-    const client = await ClientModel.findById(id, user_id);
+  static async getClientById(id: string, user_id: string, user_role?: 'admin' | 'user') {
+    const client = await ClientModel.findById(id, user_id, user_role);
     if (!client) {
       throw new AppError('Client not found', 404);
     }

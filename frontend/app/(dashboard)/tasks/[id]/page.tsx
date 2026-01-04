@@ -42,21 +42,27 @@ export default function EditTaskPage() {
     loadTimeEntries();
   }, [taskId]);
 
+  // Reset form when both task and projects are loaded
+  useEffect(() => {
+    if (task && projects.length > 0) {
+      reset({
+        title: task.title,
+        project_id: task.project_id || '',
+        description: task.description || '',
+        status: task.status,
+        priority: task.priority,
+        due_date: task.due_date ? task.due_date.split('T')[0] : '',
+        estimated_hours: task.estimated_hours || 0,
+        actual_hours: task.actual_hours || 0,
+      });
+    }
+  }, [task, projects, reset]);
+
   const loadTask = async () => {
     try {
       setIsLoadingTask(true);
       const data = await taskApi.getById(taskId);
       setTask(data);
-      reset({
-        title: data.title,
-        project_id: data.project_id || undefined,
-        description: data.description || '',
-        status: data.status,
-        priority: data.priority,
-        due_date: data.due_date || '',
-        estimated_hours: data.estimated_hours || 0,
-        actual_hours: data.actual_hours || 0,
-      });
     } catch (err: any) {
       setError(err.response?.data?.error || 'Failed to load task');
     } finally {
@@ -183,13 +189,13 @@ export default function EditTaskPage() {
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Project
+            Project *
           </label>
           <select
-            {...register('project_id')}
+            {...register('project_id', { required: 'Project is required' })}
             className="w-full px-3 py-2 border rounded-lg"
           >
-            <option value="">No project</option>
+            <option value="">Select a project</option>
             {projects.map((project) => (
               <option key={project.id} value={project.id}>
                 {project.name}
@@ -245,13 +251,16 @@ export default function EditTaskPage() {
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Due Date
+              Due Date *
             </label>
             <input
               type="date"
-              {...register('due_date')}
+              {...register('due_date', { required: 'Due date is required' })}
               className="w-full px-3 py-2 border rounded-lg"
             />
+            {errors.due_date && (
+              <p className="text-red-600 text-sm mt-1">{errors.due_date.message}</p>
+            )}
           </div>
 
           <div>

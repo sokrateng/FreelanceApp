@@ -30,8 +30,8 @@ export class ProjectService {
   /**
    * Get a single project by ID
    */
-  static async getProjectById(id: string, user_id: string) {
-    const project = await ProjectModel.findById(id, user_id);
+  static async getProjectById(id: string, user_id: string, user_role?: 'admin' | 'user') {
+    const project = await ProjectModel.findById(id, user_id, user_role);
     if (!project) {
       throw new AppError('Project not found', 404);
     }

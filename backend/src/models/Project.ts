@@ -52,13 +52,40 @@ export class ProjectModel {
   /**
    * Find project by ID
    */
-  static async findById(id: string, user_id: string): Promise<Project | null> {
-    const result = await pool.query<any>(
-      `SELECT *, TO_CHAR(deadline, 'YYYY-MM-DD') as deadline FROM projects WHERE id = $1 AND user_id = $2`,
-      [id, user_id]
-    );
+  static async findById(id: string, user_id: string, user_role?: 'admin' | 'user'): Promise<Project | null> {
+    let result;
+    
+    if (user_role === 'admin') {
+      // Admin users can see all their projects
+      result = await pool.query<any>(
+        `SELECT *, TO_CHAR(deadline, 'YYYY-MM-DD') as deadline FROM projects WHERE id = $1`,
+        [id]
+      );
+    } else {
+      // Non-admin users can only see projects for their assigned clients
+      // First get the user's assigned client IDs
+      const clientResult = await pool.query<{ client_id: string }>(
+        'SELECT client_id FROM user_clients WHERE user_id = $1',
+        [user_id]
+      );
+      
+      const user_client_ids = clientResult.rows.map(row => row.client_id);
+      
+      if (user_client_ids.length === 0) {
+        // User has no assigned clients, can't see any projects
+        return null;
+      }
+      
+      // Check if project exists and is linked to one of the user's assigned clients
+      result = await pool.query<any>(
+        `SELECT *, TO_CHAR(deadline, 'YYYY-MM-DD') as deadline 
+         FROM projects 
+         WHERE id = $1 AND id IN (SELECT project_id FROM project_clients WHERE client_id = ANY($2))`,
+        [id, user_client_ids]
+      );
+    }
+    
     const project = result.rows[0] || null;
-
     if (!project) return null;
 
     return project;
